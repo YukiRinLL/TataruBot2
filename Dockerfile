@@ -42,8 +42,20 @@ COPY --from=requirements-stage /tmp/requirements.txt /app/requirements.txt
 # 安装依赖项
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
+# 安装 nonebot-adapter-onebot
+RUN pip install nonebot-adapter-onebot
+
 # 删除 requirements.txt 文件（可选）
 RUN rm requirements.txt
 
 # 复制项目文件到目标目录
 COPY ./ /app/
+
+# 复制配置文件到目标目录
+COPY ./config.env /app/config.env
+
+# 暴露 OneBot 的端口
+EXPOSE 8080
+
+# 启动命令
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8080", "--log-level", "info"]
