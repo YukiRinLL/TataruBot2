@@ -25,6 +25,7 @@
 # COPY ./ /app/
 
 
+
 FROM python:3.9 as requirements-stage
 
 WORKDIR /tmp
@@ -48,14 +49,8 @@ RUN pip install nonebot-adapter-onebot
 # 删除 requirements.txt 文件（可选）
 RUN rm requirements.txt
 
+
+
+
 # 复制项目文件到目标目录
 COPY ./ /app/
-
-# 复制配置文件到目标目录
-COPY ./config.env /app/config.env
-
-# 暴露 OneBot 的端口
-EXPOSE 8080
-
-# 启动命令
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8080", "--log-level", "info"]
